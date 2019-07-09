@@ -3,12 +3,15 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"gosample/controllers"
+	"gosample/util"
 )
 
 func InitRouter() *gin.Engine {
 	r := gin.Default()
 
+	r.GET("/auth", controllers.GetAuth)
 	v1 := r.Group("/v1")
+	v1.Use(util.JWT())
 	{
 		v1.GET("students", controllers.ListStudent)
 		v1.GET("student", controllers.GetById)
