@@ -3,6 +3,7 @@ package util
 import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"gosample/config"
 	"gosample/constants"
 	"net/http"
 	"time"
@@ -14,6 +15,10 @@ type Claims struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	jwt.StandardClaims
+}
+
+func Setup() {
+	jwtSecret = []byte(config.AppSetting.JwtSecret)
 }
 
 func JWT() gin.HandlerFunc {
@@ -38,12 +43,7 @@ func JWT() gin.HandlerFunc {
 		}
 
 		if code != constants.SUCCESS {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": code,
-				"msg":  constants.GetMsg(code),
-				"data": data,
-			})
-
+			RespondJSON(http.StatusUnauthorized, c, code, data)
 			c.Abort()
 			return
 		}
@@ -62,7 +62,7 @@ func GenerateToken(username, password string) (string, error) {
 		EncodeMD5(password),
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
-			Issuer:    "gin-blog",
+			Issuer:    "go-sample",
 		},
 	}
 

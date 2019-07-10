@@ -6,6 +6,7 @@ import (
 	"gosample/config"
 	"gosample/models"
 	"gosample/routers"
+	"gosample/util"
 	"log"
 	"net/http"
 )
@@ -15,6 +16,7 @@ var err error
 func init() {
 	config.Setup()
 	models.Setup()
+	util.Setup()
 }
 func main() {
 	gin.SetMode(config.ServerSetting.RunMode)

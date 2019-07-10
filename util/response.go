@@ -1,22 +1,21 @@
 package util
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"gosample/constants"
 )
 
 type ResponseData struct {
-	Status int         `json:"status"`
-	Data   interface{} `json:"data"`
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
-func RespondJSON(w *gin.Context, status int, payload interface{}) {
-	fmt.Println("status ", status)
+func RespondJSON(status int, w *gin.Context, code int, payload interface{}) {
 	var res ResponseData
-
-	res.Status = status
-	//res.Meta = util.ResponseMessage(status)
+	res.Code = code
+	res.Msg = constants.GetMsg(code)
 	res.Data = payload
 
-	w.JSON(200, res)
+	w.JSON(status, res)
 }
