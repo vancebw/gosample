@@ -2,8 +2,8 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"gosample/controllers"
-	"gosample/util"
+	"gosample/api/controllers"
+	"gosample/api/util"
 )
 
 func InitRouter() *gin.Engine {

@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"gosample/constants"
-	"gosample/util"
+	"gosample/api/constants"
+	"gosample/api/util"
 	"net/http"
 )
 

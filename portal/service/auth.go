@@ -1,6 +1,6 @@
 package service
 
-import "gosample/models"
+import "gosample/portal/models"
 
 type Auth struct {
 	Username string

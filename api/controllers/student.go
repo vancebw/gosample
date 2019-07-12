@@ -3,9 +3,9 @@ package controllers
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"gosample/constants"
-	"gosample/models"
-	"gosample/util"
+	"gosample/api/constants"
+	"gosample/api/util"
+	"gosample/portal/models"
 	"net/http"
 )
 

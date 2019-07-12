@@ -3,8 +3,8 @@ package util
 import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"gosample/api/constants"
 	"gosample/config"
-	"gosample/constants"
 	"net/http"
 	"time"
 )

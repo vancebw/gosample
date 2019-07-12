@@ -2,7 +2,7 @@ package util
 
 import (
 	"github.com/gin-gonic/gin"
-	"gosample/constants"
+	"gosample/api/constants"
 )
 
 type ResponseData struct {
