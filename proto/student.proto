@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package gosample.srv.student;
+
+
+service StudentService {
+    // 创建学生
+    rpc CreateStudent (Student) returns (Response) {
+    }
+    // 获取所有学生
+    rpc ListStudent () returns (StudentResponse) {
+    }
+
+}
+
+message Student {
+    int stuId = 1;
+    string stuName = 2;
+    int age = 3;
+    int sex = 4;
+}
+
+message StudentResponse {
+    int stuId = 1;
+    string stuName = 2;
+    int age = 3;
+    int sex = 4;
+}
+
+
+// 返回学生id
+message ResponseStudentId {
+    int stuId = 1;
+}
+
+message Response {
+    // 响应是否成功
+    bool success = 1;
+    // 响应信息
+    string msg = 2;
+}

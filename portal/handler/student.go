@@ -1,45 +1,34 @@
 package handler
 
 import (
-	pb "cinema/user/pb/user"
+	pb "gosample/portal/pb/student"
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/micro/go-micro/broker"
+	"gosample/portal/models"
 )
 
 const (
-	userCreateTopic = "com.cinema.srv.user.created"
-	userLoginTopic  = "com.cinema.srv.user.login"
+	studentsTopic  = "gosample.srv.student.all"
 )
 
 type UserHandler struct {
 }
 
-func (u *UserHandler) ListStudent(ctx context.Context, req *pb.LoginRequest, user *pb.LoginResponse) error {
-	doc := bsonx.Doc{}
-	err := module.DB.Collection("user").FindOne(context.Background(),
-		bson.D{{"username", req.Username}}).Decode(&doc)
+func (u *UserHandler) ListStudent(ctx context.Context, student *pb.LoginResponse) error {
+
+	var students []models.Student
+	err := models.GetAllStudent(&students)
 	if err != nil {
 		return err
 	}
-	validate := util.ValidatePassword(doc.Lookup("password").String(), req.Password)
-	if !validate {
-		return fmt.Errorf("密码错误")
-	}
-	userId := doc.Lookup("_id").ObjectID().Hex()
-	user.UserId = userId
-	user.Nickname = doc.Lookup("nickname").StringValue()
-	user.Username = doc.Lookup("username").StringValue()
-	user.Phone = doc.Lookup("phone").StringValue()
-	i, _ := doc.Lookup("birthday").Int64OK()
-	user.Birthday = i
 	b, _ := json.Marshal(&user)
 	msg := broker.Message{
-		Header: map[string]string{"userId": userId},
+		Header: map[string]string{"stuId": userId},
 		Body:   []byte(b),
 	}
-	err = broker.Publish(userLoginTopic, &msg)
+	err = broker.Publish(studentsTopic, &msg)
 	if err != nil {
 		raven.CaptureError(err, nil)
 	}
