@@ -2,23 +2,25 @@ package handler
 
 import (
 	"context"
+	"github.com/micro/go-log"
 	"gosample/portal/models"
 	pb "gosample/portal/proto"
 )
 
-const (
-	studentsTopic = "gosample.srv.student.all"
-)
-
-type UserHandler struct {
+type StudentHandler struct {
 }
 
-func (u *UserHandler) ListStudent(ctx context.Context, req *pb.Request, rep *pb.StudentResponse) error {
+func (s *StudentHandler) CreateStudent(context.Context, *pb.Student, *pb.Response) error {
+	return nil
+}
 
-	var students []models.Student
-	err := models.GetAllStudent(&students)
+func (s *StudentHandler) ListStudent(ctx context.Context, req *pb.Request, rep *pb.ListResponse) error {
+	log.Log("Received List Students request")
+	var students []*pb.Student
+	err := models.GetAllStudent(students)
 	if err != nil {
 		return err
 	}
+	rep.Students = students
 	return nil
 }

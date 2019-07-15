@@ -1,5 +1,9 @@
 package models
 
+import (
+	pb "gosample/portal/proto"
+)
+
 type Student struct {
 	StuId   int    `json:"stuId"`
 	StuName string `json:"stuName"`
@@ -7,7 +11,7 @@ type Student struct {
 	Sex     int    `json:"sex"`
 }
 
-func GetAllStudent(s *[]Student) (err error) {
+func GetAllStudent(s []*pb.Student) (err error) {
 	if err = GetSlave().Find(s).Error; err != nil {
 		return err
 	}

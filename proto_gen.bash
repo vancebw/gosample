@@ -1,0 +1,1 @@
+protoc --proto_path=./portal/proto --micro_out=./portal/proto --go_out=. ./proto/student.proto
