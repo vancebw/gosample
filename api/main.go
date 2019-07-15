@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-web"
 	"gosample/api/routers"
-	"gosample/api/util"
 	"gosample/config"
 	"gosample/portal/models"
 	"log"

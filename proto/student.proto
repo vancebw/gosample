@@ -8,29 +8,31 @@ service StudentService {
     rpc CreateStudent (Student) returns (Response) {
     }
     // 获取所有学生
-    rpc ListStudent () returns (StudentResponse) {
+    rpc ListStudent (Request) returns (StudentResponse) {
     }
 
 }
 
+message Request {}
+
 message Student {
-    int stuId = 1;
+    int32 stuId = 1;
     string stuName = 2;
-    int age = 3;
-    int sex = 4;
+    int32 age = 3;
+    int32 sex = 4;
 }
 
 message StudentResponse {
-    int stuId = 1;
+    int32 stuId = 1;
     string stuName = 2;
-    int age = 3;
-    int sex = 4;
+    int32 age = 3;
+    int32 sex = 4;
 }
 
 
 // 返回学生id
 message ResponseStudentId {
-    int stuId = 1;
+    int32 stuId = 1;
 }
 
 message Response {
