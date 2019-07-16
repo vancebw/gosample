@@ -38,6 +38,8 @@ type StudentService interface {
 	CreateStudent(ctx context.Context, in *Student, opts ...client.CallOption) (*Response, error)
 	// 获取所有学生
 	ListStudent(ctx context.Context, in *Request, opts ...client.CallOption) (*ListResponse, error)
+	//获取学生
+	GetById(ctx context.Context, in *StudentIdReq, opts ...client.CallOption) (*Student, error)
 }
 
 type studentService struct {
@@ -78,6 +80,16 @@ func (c *studentService) ListStudent(ctx context.Context, in *Request, opts ...c
 	return out, nil
 }
 
+func (c *studentService) GetById(ctx context.Context, in *StudentIdReq, opts ...client.CallOption) (*Student, error) {
+	req := c.c.NewRequest(c.name, "StudentService.GetById", in)
+	out := new(Student)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for StudentService service
 
 type StudentServiceHandler interface {
@@ -85,12 +97,15 @@ type StudentServiceHandler interface {
 	CreateStudent(context.Context, *Student, *Response) error
 	// 获取所有学生
 	ListStudent(context.Context, *Request, *ListResponse) error
+	//获取学生
+	GetById(context.Context, *StudentIdReq, *Student) error
 }
 
 func RegisterStudentServiceHandler(s server.Server, hdlr StudentServiceHandler, opts ...server.HandlerOption) error {
 	type studentService interface {
 		CreateStudent(ctx context.Context, in *Student, out *Response) error
 		ListStudent(ctx context.Context, in *Request, out *ListResponse) error
+		GetById(ctx context.Context, in *StudentIdReq, out *Student) error
 	}
 	type StudentService struct {
 		studentService
@@ -109,4 +124,8 @@ func (h *studentServiceHandler) CreateStudent(ctx context.Context, in *Student, 
 
 func (h *studentServiceHandler) ListStudent(ctx context.Context, in *Request, out *ListResponse) error {
 	return h.StudentServiceHandler.ListStudent(ctx, in, out)
+}
+
+func (h *studentServiceHandler) GetById(ctx context.Context, in *StudentIdReq, out *Student) error {
+	return h.StudentServiceHandler.GetById(ctx, in, out)
 }

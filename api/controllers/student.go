@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/client"
 	"gosample/api/constants"
@@ -9,25 +10,28 @@ import (
 	"gosample/portal/models"
 	proto "gosample/portal/proto"
 	"net/http"
+	"strconv"
 )
 
+var service = proto.NewStudentService("gosample.srv.portal", client.DefaultClient)
+
 func ListStudent(c *gin.Context) {
-	resp, err := proto.NewStudentService("gosample.srv.portal", client.DefaultClient).ListStudent(context.TODO(), &proto.Request{})
+	resp, err := service.ListStudent(context.TODO(), &proto.Request{})
 	if err != nil {
 		util.RespondJSON(http.StatusOK, c, constants.NOT_FOUND, err)
 	} else {
-		util.RespondJSON(http.StatusOK, c, constants.SUCCESS, resp)
+		util.RespondJSON(http.StatusOK, c, constants.SUCCESS, resp.Students)
 	}
 }
 
 func GetById(c *gin.Context) {
-	id := c.Params.ByName("id")
-	var student models.Student
-	err := models.GetById(&student, id)
+	id, err := strconv.Atoi(c.Params.ByName("id"))
+	fmt.Println(id)
+	resp, err := service.GetById(context.TODO(), &proto.StudentIdReq{StuId: int32(id)})
 	if err != nil {
-		util.RespondJSON(http.StatusOK, c, constants.NOT_FOUND, student)
+		util.RespondJSON(http.StatusOK, c, constants.NOT_FOUND, err)
 	} else {
-		util.RespondJSON(http.StatusOK, c, constants.SUCCESS, student)
+		util.RespondJSON(http.StatusOK, c, constants.SUCCESS, resp)
 	}
 }
 

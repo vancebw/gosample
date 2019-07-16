@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/web"
 	"gosample/api/routers"
+	"gosample/api/util"
 	"gosample/config"
 	"log"
 	server "net/http"
@@ -14,6 +15,7 @@ var err error
 
 func init() {
 	config.Setup()
+	util.Setup()
 }
 func main() {
 	// 创建 micro 服务

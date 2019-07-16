@@ -10,10 +10,17 @@ service StudentService {
     // 获取所有学生
     rpc ListStudent (Request) returns (ListResponse) {
     }
+    //获取学生
+    rpc GetById (StudentIdReq) returns (Student) {
+    }
 
 }
 
 message Request {
+}
+
+message StudentIdReq {
+    int32 stuId = 1;
 }
 
 message Student {
