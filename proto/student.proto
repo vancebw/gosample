@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package gosample.srv.student;
+package gosample.srv.portal;
 
 
 service StudentService {
@@ -25,9 +25,7 @@ message Student {
 
 
 message ListResponse {
-    string code = 1;
-    string msg = 2;
-    repeated Student students = 3;
+    repeated Student students = 1;
 }
 
 message Response {

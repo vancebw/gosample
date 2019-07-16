@@ -1,22 +1,22 @@
 package controllers
 
 import (
-	"fmt"
+	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/micro/go-micro/client"
 	"gosample/api/constants"
 	"gosample/api/util"
 	"gosample/portal/models"
+	proto "gosample/portal/proto"
 	"net/http"
 )
 
 func ListStudent(c *gin.Context) {
-	var students []models.Student
-	err := models.GetAllStudent(&students)
+	resp, err := proto.NewStudentService("gosample.srv.portal", client.DefaultClient).ListStudent(context.TODO(), &proto.Request{})
 	if err != nil {
-		fmt.Println(err)
-		util.RespondJSON(http.StatusOK, c, constants.NOT_FOUND, students)
+		util.RespondJSON(http.StatusOK, c, constants.NOT_FOUND, err)
 	} else {
-		util.RespondJSON(http.StatusOK, c, constants.SUCCESS, students)
+		util.RespondJSON(http.StatusOK, c, constants.SUCCESS, resp)
 	}
 }
 
